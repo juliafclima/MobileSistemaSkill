@@ -4,12 +4,13 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import theme from "@/global/styles/theme";
 import SignUp from "@/pages/SignUp";
+import SignIn from "@/pages/SignIn";
 
 export default function App() {
   return (
     <NavigationContainer>
       <ThemeProvider theme={theme}>
-        <SignUp />
+        <SignIn />
       </ThemeProvider>
     </NavigationContainer>
   );

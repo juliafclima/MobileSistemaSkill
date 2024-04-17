@@ -13,12 +13,15 @@ export default function SignIn() {
     >
       <Container>
         <Content>
-          <Title>Faça seu login</Title>
+          <Title>Sistema Skill</Title>
+          <Title>login</Title>
 
-          <Input placeholder="Email" />
-          <Input placeholder="Senha" />
+          <Input placeholder="Digite seu login" />
+          <Input placeholder="Digite sua senha" />
 
           <Button activeOpacity={0.7} title="Entrar" />
+
+          <Title>Não tem conta? Registre-se</Title>
         </Content>
       </Container>
     </ScrollView>

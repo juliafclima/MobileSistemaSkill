@@ -13,13 +13,14 @@ export default function SignUp() {
     >
       <Container>
         <Content>
-          <Title>Crie sua conta</Title>
+          <Title>Sistema Skill</Title>
+          <Title>Cadastro</Title>
 
-          <Input placeholder="Nome completo" />
-          <Input placeholder="Email" />
-          <Input placeholder="Senha" />
+          <Input placeholder="Digite seu login" />
+          <Input placeholder="Digite sua senha" />
+          <Input placeholder="Digite sua senha" />
 
-          <Button activeOpacity={0.7} title="Criar conta" />
+          <Button activeOpacity={0.7} title="Inscrever-se" />
         </Content>
       </Container>
     </ScrollView>
