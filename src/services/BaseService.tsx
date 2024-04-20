@@ -1,33 +1,33 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const axiosInstance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BACKEND_URL_API
+  baseURL: "http://localhost:8080",
 });
 
 export class BaseService {
-    url: string;
+  url: string;
 
-    constructor(url: string) {
-        this.url = url;
-    }
+  constructor(url: string) {
+    this.url = url;
+  }
 
-    listarTodos() {
-        return axiosInstance.get(this.url);
-    }
+  listarTodos() {
+    return axiosInstance.get(this.url);
+  }
 
-    buscarPorId(id: number) {
-        return axiosInstance.get(`${this.url}/${id}`);
-    }
+  buscarPorId(id: number) {
+    return axiosInstance.get(`${this.url}/${id}`);
+  }
 
-    inserir(objeto: any) {
-        return axiosInstance.post(this.url, objeto);
-    }
+  inserir(objeto: any) {
+    return axiosInstance.post(this.url, objeto);
+  }
 
-    alterar(objeto: any) {
-        return axiosInstance.put(this.url, objeto);
-    }
+  alterar(objeto: any) {
+    return axiosInstance.put(this.url, objeto);
+  }
 
-    remover(id: number) {
-        return axiosInstance.delete(`${this.url}/${id}`);
-    }
+  remover(id: number) {
+    return axiosInstance.delete(`${this.url}/${id}`);
+  }
 }

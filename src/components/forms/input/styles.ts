@@ -1,9 +1,9 @@
 import { TextInput } from "react-native";
 import styled from "styled-components/native";
+import { RFValue } from "react-native-responsive-fontsize";
 
 import { colors, fonts } from "@/global/styles/theme";
-import { Colors } from "@/types/colors";
-import { RFValue } from "react-native-responsive-fontsize";
+
 
 export const Container = styled(TextInput)`
   width: 100%;
