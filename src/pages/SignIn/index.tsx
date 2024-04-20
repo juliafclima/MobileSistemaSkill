@@ -17,11 +17,9 @@ export default function SignIn() {
           <Title>login</Title>
 
           <Input placeholder="Digite seu login" />
-          <Input placeholder="Digite sua senha" />
+          <Input secureTextEntry placeholder="Digite sua senha" />
 
           <Button activeOpacity={0.7} title="Entrar" />
-
-          <Title>Não tem conta? Registre-se</Title>
         </Content>
       </Container>
     </ScrollView>

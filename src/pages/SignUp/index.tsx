@@ -17,8 +17,8 @@ export default function SignUp() {
           <Title>Cadastro</Title>
 
           <Input placeholder="Digite seu login" />
-          <Input placeholder="Digite sua senha" />
-          <Input placeholder="Digite sua senha" />
+          <Input secureTextEntry placeholder="Digite sua senha" />
+          <Input secureTextEntry placeholder="Confirme sua senha" />
 
           <Button activeOpacity={0.7} title="Inscrever-se" />
         </Content>
