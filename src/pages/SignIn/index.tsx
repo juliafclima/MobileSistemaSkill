@@ -8,6 +8,7 @@ import { Input } from "@/components/forms/input";
 import { Button } from "@/components/forms/button";
 import { postLogin } from "@/services/LoginService";
 import LembrarCheckbox from "@/components/lembreDeMim";
+import { PasswordInput } from "@/components/forms/passwordInpu";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
@@ -89,10 +90,10 @@ export default function SignIn() {
             onChangeText={text => setUsername(text)}
             placeholder="Digite seu login"
           />
-          <Input
+
+          <PasswordInput
             value={password}
-            onChangeText={text => setPassword(text)}
-            secureTextEntry
+            onChangeText={setPassword}
             placeholder="Digite sua senha"
           />
 

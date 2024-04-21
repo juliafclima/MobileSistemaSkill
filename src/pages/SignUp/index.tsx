@@ -6,6 +6,7 @@ import { Container, Content, Title } from "@/pages/SignUp/styles";
 import { Input } from "@/components/forms/input";
 import { Button } from "@/components/forms/button";
 import { postCadastro } from "@/services/LoginService";
+import { PasswordInput } from "@/components/forms/passwordInpu";
 
 export default function SignUp() {
   const [login, setLogin] = useState("");
@@ -59,16 +60,16 @@ export default function SignUp() {
             onChangeText={text => setLogin(text)}
             placeholder="Digite seu login"
           />
-          <Input
+
+          <PasswordInput
             value={senha}
-            onChangeText={text => setSenha(text)}
-            secureTextEntry
+            onChangeText={setSenha}
             placeholder="Digite sua senha"
           />
-          <Input
+
+          <PasswordInput
             value={confirmSenha}
-            onChangeText={text => setConfirmSenha(text)}
-            secureTextEntry
+            onChangeText={setConfirmSenha}
             placeholder="Confirme sua senha"
           />
           <Button
