@@ -41,13 +41,14 @@ export default function SignIn() {
       try {
         const response = await postLogin(username, password);
 
-        const token = response.data.token;
-        AsyncStorage.setItem("token", token);
-
         const userId = response.data.userId;
+        console.log(`userId ${userId} vindo da response`);
+
+        /* SALVAR O USERID NO ASYNCSTORAGE */
 
         if (userId) {
-          AsyncStorage.setItem("userId", userId);
+          await AsyncStorage.setItem("userId", userId.toString());
+          console.log("User ID armazenado com sucesso");
         }
 
         if (lembrarUsuario) {

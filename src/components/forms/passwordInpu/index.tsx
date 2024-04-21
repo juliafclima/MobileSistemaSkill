@@ -24,7 +24,6 @@ export const PasswordInput: React.FunctionComponent<TextInputProps> = ({
         size={24}
         color="white"
         onPress={() => setSecureTextEntry(!secureTextEntry)}
-        style={styles.icon}
       />
     </View>
   );
@@ -37,7 +36,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: colors.gray[800],
     paddingRight: 20,
-    marginBottom: 20
+    marginBottom: 20,
   },
 
   input: {

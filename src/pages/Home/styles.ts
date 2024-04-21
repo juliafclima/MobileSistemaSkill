@@ -1,62 +1,78 @@
 import styled from "styled-components/native";
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
-import { colors, fonts } from "@/global/styles/theme";
-import { Colors } from "@/types/colors";
+import { colors } from "@/global/styles/theme";
 
 export const Container = styled.View`
-  flex: 1;
+  margin: 0 auto;
+  padding: 20px;
   background-color: ${colors.dark};
-`;
-
-export const Header = styled.View`
-  width: 100%;
-  height: ${RFPercentage(17)}px;
-  background-color: ${colors.secondary};
+  color: ${colors.light};
+  margin: 0px;
   justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  padding-top: ${RFValue(28)}px;
 `;
 
-export const UserWrapper = styled.View`
+export const MainContainer = styled.View`
+  margin-top: 20px;
+`;
+
+export const CardContainer = styled.View`
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: ${colors.black};
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
-  padding: 0 24px 24px 24px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 `;
 
-export const UserInfo = styled.View`
-  flex-direction: row;
-  align-items: center;
-`;
-
-export const UserAvatarButton = styled.TouchableOpacity``;
-
-export const UserAvatar = styled.Image`
-  width: ${RFValue(52)};
-  height: ${RFValue(52)};
+export const CardImage = styled.Image`
+  width: 80%;
+  height: 100px;
+  margin: auto;
+  margin-top: 10px;
+  background-color: aliceblue;
+  padding: 15px;
   border-radius: 10px;
 `;
 
-export const UserInfoDetail = styled.View`
-  margin-left: 17px;
+export const CardTitle = styled.Text`
+  font-size: 20px;
 `;
 
-export const UserGreeting = styled.Text`
-  color: ${(colors as Colors).gray[800]};
-  font-size: ${RFValue(18)}px;
-  font-weight: ${fonts.regular};
+export const CardDescription = styled.Text`
+  font-size: 14px;
+  color: #666;
+  text-align: justify;
 `;
 
-export const UserName = styled.Text`
-  color: ${(colors as Colors).gray[800]};
-  font-size: ${RFValue(18)}px;
-  font-weight: ${fonts.bold};
+export const CardLevel = styled.Text`
+  font-size: 16px;
+  color: #777;
 `;
 
-export const Icon = styled.Text`
-  color: ${colors.dark};
-  font-size: ${RFValue(28)}px;
+export const InputField = styled.TextInput`
+  font-size: 16px;
+  border: 1px solid black;
+  outline: none;
+  padding: 3px;
+  border-radius: 19px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100px;
+`;
+
+export const SaveButton = styled.TouchableOpacity`
+  background: none;
+  border: none;
+  display: flex;
+`;
+
+export const ContainerEdicao = styled.View`
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex-direction: column;
 `;
