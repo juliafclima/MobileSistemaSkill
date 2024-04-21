@@ -36,10 +36,7 @@ export default function SignIn() {
   }, []);
 
   const logar = async () => {
-    console.log("entrou");
-    navigation.navigate("Home");
-    
-    /*  if (password && username) {
+    if (password && username) {
       try {
         const response = await postLogin(username, password);
 
@@ -67,14 +64,14 @@ export default function SignIn() {
             console.error("Error removing data:", error);
           }
         }
-        //navigation.navigate("Home");
+        navigation.navigate("Home");
       } catch (error) {
         console.error("Erro ao realizar login:", error);
         Alert.alert("Senha e/ou login errados!");
       }
     } else {
       Alert.alert("Preencha todos os campos");
-    } */
+    }
   };
 
   return (

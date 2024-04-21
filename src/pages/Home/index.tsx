@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity, Text } from "react-native";
+import axios from "axios";
 
 import {
   Container,
@@ -16,8 +17,31 @@ import {
 import avatarDefault from "@/assets/avatar02.png";
 import { Input } from "@/components/forms/input/index";
 
+type Skill = {
+  id: number;
+  level: string;
+  usuario: {
+    id: number;
+    login: string;
+    senha: string;
+    situacao: string;
+  };
+  skill: {
+    id: number;
+    nome: string;
+    descricao: string;
+    url: string;
+  };
+};
+
 export default function Home() {
-  const navigation = useNavigation();
+  const [userSkills, setUserSkills] = useState<Skill[]>([]);
+  const [tokenExists, setTokenExists] = useState(false);
+  const [novoNivel, setNovoNivel] = useState("0/10");
+  const [editingCardId, setEditingCardId] = useState<number | null>(null);
+  const [showAddSkillModal, setShowAddSkillModal] = useState(false);
+
+  const navigate = useNavigation();
 
   return (
     <Container>
@@ -45,4 +69,3 @@ export default function Home() {
     </Container>
   );
 }
-

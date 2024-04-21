@@ -29,10 +29,11 @@ export default function SignUp() {
 
       try {
         setLoading(true);
-        await postCadastro(usuario);
+        const response = await postCadastro(usuario);
 
         Alert.alert("Cadastrado com sucesso");
 
+        setLoading(false);
         navigation.navigate("Login");
       } catch (error) {
         console.error("Erro ao cadastrar:", error);
