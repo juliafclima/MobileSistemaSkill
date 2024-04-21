@@ -26,7 +26,7 @@ import ModalAddSkill from "./modal";
 import styled from "styled-components/native";
 
 type Skill = {
-  id: number;
+  id: any;
   level: string;
   usuario: {
     id: number;
@@ -44,7 +44,7 @@ type Skill = {
 
 export default function Home({ route }: any) {
   const [userSkills, setUserSkills] = useState<Skill[]>([]);
-  const [novoNivel, setNovoNivel] = useState("0/10");
+  const [novoNivel, setNovoNivel] = useState("");
   const [editingCardId, setEditingCardId] = useState<number | null>(null);
   const [showAddSkillModal, setShowAddSkillModal] = useState(false);
 
@@ -105,13 +105,20 @@ export default function Home({ route }: any) {
           `http://192.168.1.159:8080/usuario-skill`,
         );
 
-        const userID = Number(AsyncStorage.getItem("userId"));
+        // Obtenha o userId antes de tentar filtrar os dados
+        const userID = await AsyncStorage.getItem("userId");
+        console.log("userId from AsyncStorage:", userID);
 
-        const userSkillsFiltered = response.data.filter(
-          (skill: Skill) => skill.usuario.id === userID,
-        );
-
-        setUserSkills(userSkillsFiltered);
+        // Verifique se o userID é um número válido
+        if (userID && !isNaN(Number(userID))) {
+          const userSkillsFiltered = response.data.filter(
+            (skill: Skill) => skill.usuario.id === Number(userID),
+          );
+          setUserSkills(userSkillsFiltered);
+          console.log(userSkills);
+        } else {
+          console.error("userId is not valid:", userID);
+        }
       } catch (error) {
         console.error("Error fetching skills:", error);
       }
@@ -120,7 +127,7 @@ export default function Home({ route }: any) {
   }, []);
 
   const handleEdit = (id: number) => {
-    setNovoNivel(userSkills.find(skill => skill.id === id)?.level || "0/10");
+    setNovoNivel(userSkills.find(skill => skill.id === id)?.level || "");
     setEditingCardId(id);
   };
 

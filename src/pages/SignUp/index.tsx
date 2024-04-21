@@ -33,7 +33,9 @@ export default function SignUp() {
         const response = await postCadastro(usuario);
 
         Alert.alert("Cadastrado com sucesso");
-
+        setLogin("");
+        setSenha("");
+        setConfirmSenha("");
         setLoading(false);
         navigation.navigate("Login");
       } catch (error) {
