@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity, Text } from "react-native";
 
 import {
   Container,
@@ -10,12 +12,13 @@ import {
   UserInfoDetail,
   UserGreeting,
   UserName,
-  Icon,
 } from "@/pages/Home/styles";
 import avatarDefault from "@/assets/avatar02.png";
 import { Input } from "@/components/forms/input/index";
 
 export default function Home() {
+  const navigation = useNavigation();
+
   return (
     <Container>
       <Header>
@@ -31,7 +34,9 @@ export default function Home() {
             </UserInfoDetail>
           </UserInfo>
 
-          <Icon>✖</Icon>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+            <Text>✖</Text>
+          </TouchableOpacity>
         </UserWrapper>
         <></>
       </Header>
@@ -40,3 +45,4 @@ export default function Home() {
     </Container>
   );
 }
+

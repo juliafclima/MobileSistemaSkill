@@ -19,3 +19,17 @@ export const postLogin = (username: string, password: string) => {
     password: password,
   });
 };
+
+export const getCadastro = () => {
+  return axiosInstance.get("/usuario");
+};
+
+export const getUsuarioSkill = () => {
+  return axiosInstance.get("/usuario-skill");
+};
+
+export const putUsuarioSkill = (id: number, novoNivel: string) => {
+  return axiosInstance.put(`/usuario-skill/${id}/atualizar-nivel`, {
+    novoNivel,
+  });
+};
