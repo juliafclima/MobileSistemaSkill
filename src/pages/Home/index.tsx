@@ -40,13 +40,15 @@ type Skill = {
   };
 };
 
-export default function Home() {
+export default function Home({ route }) {
   const [userSkills, setUserSkills] = useState<Skill[]>([]);
   const [novoNivel, setNovoNivel] = useState("0/10");
   const [editingCardId, setEditingCardId] = useState<number | null>(null);
   const [showAddSkillModal, setShowAddSkillModal] = useState(false);
 
   const navigation = useNavigation();
+
+  const { setUsername, setPassword, novoEstado } = route.params;
 
   const openAddSkillModal = () => {
     setShowAddSkillModal(true);
@@ -86,6 +88,13 @@ export default function Home() {
   }, []);
 
   const handleLogout = () => {
+    if (novoEstado == false) {
+      AsyncStorage.removeItem("username");
+      AsyncStorage.removeItem("password");
+      setUsername("");
+      setPassword("");
+    }
+
     AsyncStorage.removeItem("userId");
     navigation.navigate("Login");
   };
@@ -150,38 +159,16 @@ export default function Home() {
   };
 
   const handleDelete = async (id: number) => {
-    try {
-      Popup.show({
-        type: "confirm",
-        title: "Deseja realmente apagar este card?",
-        textBody: "Essa ação não pode ser revertida!",
-        buttonText: "Sim, apagar!",
-        confirmText: "Cancelar",
-        callback: async () => {
-          try {
-            await axios.delete(`http://192.168.1.159:8080/usuario-skill/${id}`);
+    await axios.delete(`http://192.168.1.159:8080/usuario-skill/${id}`);
 
-            const updatedSkills = userSkills.filter(skill => skill.id !== id);
-            setUserSkills(updatedSkills);
+    const updatedSkills = userSkills.filter(skill => skill.id !== id);
+    setUserSkills(updatedSkills);
 
-            if (editingCardId === id) {
-              setEditingCardId(null);
-            }
-
-            Alert.alert("Card removido com sucesso!");
-          } catch (error) {
-            Alert.alert("Algo aconteceu! Não foi possível apagar.");
-          } finally {
-            Popup.hide();
-          }
-        },
-        cancelCallback: () => {
-          Popup.hide();
-        },
-      });
-    } catch (error) {
-      Alert.alert("Algo aconteceu! Não foi possível apagar.");
+    if (editingCardId === id) {
+      setEditingCardId(null);
     }
+
+    Alert.alert("Card removido com sucesso!");
   };
 
   return (

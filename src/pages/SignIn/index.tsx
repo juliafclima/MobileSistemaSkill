@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from "react";
 import { Alert, ScrollView, TouchableOpacity, View, Text } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 
-import { Container, Content, Title } from "@/pages/SignIn/styles";
 import { Input } from "@/components/forms/input";
 import { Button } from "@/components/forms/button";
 import { postLogin } from "@/services/LoginService";
 import LembrarCheckbox from "@/components/lembreDeMim";
 import { PasswordInput } from "@/components/forms/passwordInpu";
+import { Container, Content, Title } from "@/pages/SignIn/styles";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [lembrarUsuario, setLembrarUsuario] = useState(false);
+  const [novoEstado, setNovoEstado] = useState(false);
 
   const navigation = useNavigation();
 
@@ -42,13 +43,9 @@ export default function SignIn() {
         const response = await postLogin(username, password);
 
         const userId = response.data.userId;
-        console.log(`userId ${userId} vindo da response`);
-
-        /* SALVAR O USERID NO ASYNCSTORAGE */
 
         if (userId) {
           await AsyncStorage.setItem("userId", userId.toString());
-          console.log("User ID armazenado com sucesso");
         }
 
         if (lembrarUsuario) {
@@ -66,7 +63,7 @@ export default function SignIn() {
             console.error("Error removing data:", error);
           }
         }
-        navigation.navigate("Home");
+        navigation.navigate("Home", { setUsername, setPassword, novoEstado });
       } catch (error) {
         console.error("Erro ao realizar login:", error);
         Alert.alert("Senha e/ou login errados!");
@@ -74,6 +71,13 @@ export default function SignIn() {
     } else {
       Alert.alert("Preencha todos os campos");
     }
+  };
+
+  const handleCheckboxChange = () => {
+    const novoEstado = !lembrarUsuario;
+    console.log("novoEstado", novoEstado);
+    setLembrarUsuario(novoEstado);
+    setNovoEstado(novoEstado);
   };
 
   return (
@@ -108,7 +112,7 @@ export default function SignIn() {
           >
             <LembrarCheckbox
               lembrarUsuario={lembrarUsuario}
-              onChange={() => setLembrarUsuario(!lembrarUsuario)}
+              onChange={handleCheckboxChange}
             />
           </View>
 

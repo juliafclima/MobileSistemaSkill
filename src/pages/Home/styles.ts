@@ -27,17 +27,17 @@ export const CardContainer = styled.View`
 `;
 
 export const CardImage = styled.Image`
-  width: 80%;
+  width: 100px;
   height: 100px;
   margin: auto;
   margin-top: 10px;
-  background-color: aliceblue;
-  padding: 15px;
-  border-radius: 10px;
+  background-color: white;
+  padding: 100px;
 `;
 
 export const CardTitle = styled.Text`
   font-size: 20px;
+  color: #fff;
 `;
 
 export const CardDescription = styled.Text`
