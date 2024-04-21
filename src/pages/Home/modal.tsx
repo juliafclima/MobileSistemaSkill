@@ -25,6 +25,7 @@ const ModalAddSkill = ({ isOpen, onClose, onSave }: ModalAddSkillProps) => {
 
   const fetchUserSkills = async () => {
     const response = await axios.get(`http://192.168.1.159:8080/skill`);
+    console.log(response.data)
     setUserSkills(response.data);
   };
 
@@ -39,7 +40,7 @@ const ModalAddSkill = ({ isOpen, onClose, onSave }: ModalAddSkillProps) => {
         return;
       }
 
-      const userID = Number(AsyncStorage.getItem("userId"));
+      const userID = Number(await AsyncStorage.getItem("userId"));
 
       try {
         await axios.post(`http://192.168.1.159:8080/usuario-skill`, {
@@ -52,7 +53,7 @@ const ModalAddSkill = ({ isOpen, onClose, onSave }: ModalAddSkillProps) => {
 
         setSelectedSkills([...selectedSkills, selectedSkillId]);
 
-        fetchUserSkills();
+    
       } catch (error) {
         console.error("Error:", error);
       }

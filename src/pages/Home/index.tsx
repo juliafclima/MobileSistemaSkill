@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { Alert, ScrollView, Text, View } from "react-native";
+import { Alert, ScrollView, Text, TextInput, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
@@ -23,6 +23,7 @@ import axios from "axios";
 import { putUsuarioSkill } from "@/services/LoginService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModalAddSkill from "./modal";
+import styled from "styled-components/native";
 
 type Skill = {
   id: number;
@@ -41,7 +42,7 @@ type Skill = {
   };
 };
 
-export default function Home({ route }) {
+export default function Home({ route }: any) {
   const [userSkills, setUserSkills] = useState<Skill[]>([]);
   const [novoNivel, setNovoNivel] = useState("0/10");
   const [editingCardId, setEditingCardId] = useState<number | null>(null);
@@ -170,9 +171,18 @@ export default function Home({ route }) {
   };
 
   return (
-    <ScrollView>
-      <Container>
-        <Text style={{ textAlign: "center" }}>Gerenciamento de Skills</Text>
+    <ScrollView style={{ flex: 1 }}>
+      <Container style={{ paddingTop: 40 }}>
+        <Text
+          style={{
+            textAlign: "center",
+            color: "#f1f1f1",
+            fontSize: 20,
+            fontWeight: "bolder",
+          }}
+        >
+          Gerenciamento de Skills
+        </Text>
         <View
           style={{
             flexDirection: "column",
@@ -188,7 +198,7 @@ export default function Home({ route }) {
           onSave={handleSaveNewSkill}
         />
 
-        <MainContainer>
+        <MainContainer style={{ marginTop: 40 }}>
           {userSkills.map(skill => (
             <CardContainer key={skill.id}>
               <View
@@ -210,31 +220,40 @@ export default function Home({ route }) {
                 <CardImage src={skill.skill.url} alt="" />
               </View>
               <CardTitle>{skill.skill.nome}</CardTitle>
-
               {editingCardId === skill.id ? (
                 <ContainerEdicao>
-                  <InputField
-                    type="number"
+                  <TextInput
+                    style={{
+                      backgroundColor: "white",
+                      borderRadius: 19,
+                      padding: 3,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      paddingLeft: 10,
+                    }}
                     value={novoNivel}
-                    onChange={e => setNovoNivel(e.nativeEvent.text)}
+                    onChangeText={setNovoNivel}
                     placeholder="Novo nível"
+                    keyboardType="numeric"
                   />
 
-                  <SaveButton onClick={() => handleSave(skill.id)}>
+                  <SaveButton onPress={() => handleSave(skill.id)}>
                     <Ionicons name="save" size={24} color="white" />
                   </SaveButton>
                 </ContainerEdicao>
               ) : (
-                <ContainerEdicao onClick={() => handleEdit(skill.id)}>
-                  <CardLevel>
-                    Nível {skill.level}/10
+                <ContainerEdicao onPress={() => handleEdit(skill.id)}>
+                  <View
+                    style={{ display: "flex", flexDirection: "row", gap: 10 }}
+                  >
+                    <CardLevel>Nível {skill.level}/10</CardLevel>
                     <Octicons
                       name="pencil"
                       size={24}
                       color="white"
                       style={{ marginLeft: 10 }}
                     />
-                  </CardLevel>
+                  </View>
                 </ContainerEdicao>
               )}
 

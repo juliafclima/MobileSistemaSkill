@@ -33,11 +33,13 @@ export const CardImage = styled.Image`
   margin-top: 10px;
   background-color: white;
   padding: 100px;
+  border: 10px solid white;
 `;
 
 export const CardTitle = styled.Text`
   font-size: 20px;
   color: #fff;
+  margin-top: 20px;
 `;
 
 export const CardDescription = styled.Text`
@@ -65,14 +67,14 @@ export const InputField = styled.TextInput`
 `;
 
 export const SaveButton = styled.TouchableOpacity`
-  background: none;
   border: none;
   display: flex;
 `;
 
-export const ContainerEdicao = styled.View`
+export const ContainerEdicao = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   gap: 15px;
-  flex-direction: column;
+  flex-direction: row;
+  margin-bottom: 20px;
 `;
