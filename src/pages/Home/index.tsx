@@ -22,6 +22,7 @@ import { Button } from "@/components/forms/button";
 import axios from "axios";
 import { putUsuarioSkill } from "@/services/LoginService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ModalAddSkill from "./modal";
 
 type Skill = {
   id: number;
@@ -68,10 +69,7 @@ export default function Home({ route }) {
         `http://192.168.1.159:8080/usuario-skill`,
       );
 
-      console.log("resposta data fetchUserSkills ", response.data);
-
       const userID = await AsyncStorage.getItem("userId");
-      console.log("userid home", userID);
 
       const userSkillsFiltered = response.data.filter(
         (skill: Skill) => skill.usuario.id === Number(userID),
@@ -184,11 +182,11 @@ export default function Home({ route }) {
           <Button title="Sair" onPress={handleLogout} />
         </View>
 
-        {/* <ModalAddSkill
-        isOpen={showAddSkillModal}
-        onClose={closeAddSkillModal}
-        onSave={handleSaveNewSkill}
-      /> */}
+        <ModalAddSkill
+          isOpen={showAddSkillModal}
+          onClose={closeAddSkillModal}
+          onSave={handleSaveNewSkill}
+        />
 
         <MainContainer>
           {userSkills.map(skill => (
