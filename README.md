@@ -43,6 +43,20 @@ npm run dev
 
 - [Back-End](https://github.com/juliafclima/BackSistemaSkilll)
 
+## imagens
+
+<img width="178" alt="image" src="https://github.com/juliafclima/MobileSistemaSkill/assets/134448650/f5fea68e-9d62-4d77-8b1a-93677d751757">
+
+<img width="175" alt="image" src="https://github.com/juliafclima/MobileSistemaSkill/assets/134448650/214b2a87-c26a-427e-b243-5467f9434cf2">
+
+<img width="174" alt="image" src="https://github.com/juliafclima/MobileSistemaSkill/assets/134448650/a95e4d82-90ea-477a-b1d1-bffd9643ee42">
+
+<img width="170" alt="image" src="https://github.com/juliafclima/MobileSistemaSkill/assets/134448650/7dfb5b40-bab0-4493-a743-dc98ad64dbef">
+
+<img width="176" alt="image" src="https://github.com/juliafclima/MobileSistemaSkill/assets/134448650/bad5e573-436c-4bd4-ba39-c828eed93699">
+
+<img width="176" alt="image" src="https://github.com/juliafclima/MobileSistemaSkill/assets/134448650/bebce1b9-2fb2-4474-b9e3-9e396c4bce72">
+
 ## Bibliotecas e tecnologias utilizadas
 
 - TypeScript
