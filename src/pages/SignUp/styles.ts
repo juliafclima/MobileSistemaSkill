@@ -21,5 +21,6 @@ export const Title = styled.Text`
   font-weight: ${fonts.regular};
   color: ${colors.light};
   margin-bottom: 24px;
+  text-align: center;
   text-transform: uppercase;
 `;

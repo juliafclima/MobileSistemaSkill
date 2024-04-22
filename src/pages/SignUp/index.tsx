@@ -30,7 +30,7 @@ export default function SignUp() {
 
       try {
         setLoading(true);
-        const response = await postCadastro(usuario);
+        await postCadastro(usuario);
 
         Alert.alert("Cadastrado com sucesso");
         setLogin("");
@@ -56,7 +56,7 @@ export default function SignUp() {
       <Container>
         <Content>
           <Title>Sistema Skill</Title>
-          <Title>Cadastro</Title>
+
           <Input
             value={login}
             onChangeText={text => setLogin(text)}

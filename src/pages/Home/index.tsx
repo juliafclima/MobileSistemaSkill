@@ -4,7 +4,6 @@ import { Alert, ScrollView, Text, TextInput, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
-import { Popup } from "react-native-popup-confirm-toast";
 
 import {
   Container,
@@ -23,7 +22,6 @@ import axios from "axios";
 import { putUsuarioSkill } from "@/services/LoginService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModalAddSkill from "./modal";
-import styled from "styled-components/native";
 
 type Skill = {
   id: any;
@@ -69,8 +67,10 @@ export default function Home({ route }: any) {
       const response = await axios.get(
         `http://192.168.1.159:8080/usuario-skill`,
       );
+      console.warn("resposta api", response.data);
 
       const userID = await AsyncStorage.getItem("userId");
+      console.warn("userId from AsyncStorage:", userID);
 
       const userSkillsFiltered = response.data.filter(
         (skill: Skill) => skill.usuario.id === Number(userID),
@@ -105,11 +105,9 @@ export default function Home({ route }: any) {
           `http://192.168.1.159:8080/usuario-skill`,
         );
 
-        // Obtenha o userId antes de tentar filtrar os dados
         const userID = await AsyncStorage.getItem("userId");
         console.log("userId from AsyncStorage:", userID);
 
-        // Verifique se o userID é um número válido
         if (userID && !isNaN(Number(userID))) {
           const userSkillsFiltered = response.data.filter(
             (skill: Skill) => skill.usuario.id === Number(userID),
@@ -178,7 +176,7 @@ export default function Home({ route }: any) {
   };
 
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1, backgroundColor: "#121214" }}>
       <Container style={{ paddingTop: 40 }}>
         <Text
           style={{
@@ -205,69 +203,83 @@ export default function Home({ route }: any) {
           onSave={handleSaveNewSkill}
         />
 
-        <MainContainer style={{ marginTop: 40 }}>
-          {userSkills.map(skill => (
-            <CardContainer key={skill.id}>
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <AntDesign
-                  name="delete"
-                  size={24}
-                  color="white"
-                  onPress={() => handleDelete(skill.id)}
-                />
-              </View>
-
-              <View style={{ display: "flex", justifyContent: "center" }}>
-                <CardImage src={skill.skill.url} alt="" />
-              </View>
-              <CardTitle>{skill.skill.nome}</CardTitle>
-              {editingCardId === skill.id ? (
-                <ContainerEdicao>
-                  <TextInput
-                    style={{
-                      backgroundColor: "white",
-                      borderRadius: 19,
-                      padding: 3,
-                      justifyContent: "center",
-                      alignItems: "center",
-                      paddingLeft: 10,
-                    }}
-                    value={novoNivel}
-                    onChangeText={setNovoNivel}
-                    placeholder="Novo nível"
-                    keyboardType="numeric"
+        {userSkills.length === 0 ? (
+          <Text
+            style={{
+              textAlign: "center",
+              color: "#f1f1f1",
+              fontSize: 16,
+              fontWeight: "bold",
+              marginTop: 40,
+            }}
+          >
+            Deseja adicionar alguma skill?
+          </Text>
+        ) : (
+          <MainContainer style={{ marginTop: 40 }}>
+            {userSkills.map(skill => (
+              <CardContainer key={skill.id}>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <AntDesign
+                    name="delete"
+                    size={24}
+                    color="white"
+                    onPress={() => handleDelete(skill.id)}
                   />
+                </View>
 
-                  <SaveButton onPress={() => handleSave(skill.id)}>
-                    <Ionicons name="save" size={24} color="white" />
-                  </SaveButton>
-                </ContainerEdicao>
-              ) : (
-                <ContainerEdicao onPress={() => handleEdit(skill.id)}>
-                  <View
-                    style={{ display: "flex", flexDirection: "row", gap: 10 }}
-                  >
-                    <CardLevel>Nível {skill.level}/10</CardLevel>
-                    <Octicons
-                      name="pencil"
-                      size={24}
-                      color="white"
-                      style={{ marginLeft: 10 }}
+                <View style={{ display: "flex", justifyContent: "center" }}>
+                  <CardImage src={skill.skill.url} alt="" />
+                </View>
+                <CardTitle>{skill.skill.nome}</CardTitle>
+                {editingCardId === skill.id ? (
+                  <ContainerEdicao>
+                    <TextInput
+                      style={{
+                        backgroundColor: "white",
+                        borderRadius: 19,
+                        padding: 3,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        paddingLeft: 10,
+                      }}
+                      value={novoNivel}
+                      onChangeText={setNovoNivel}
+                      placeholder="Novo nível"
+                      keyboardType="numeric"
                     />
-                  </View>
-                </ContainerEdicao>
-              )}
 
-              <CardDescription>{skill.skill.descricao}</CardDescription>
-            </CardContainer>
-          ))}
-        </MainContainer>
+                    <SaveButton onPress={() => handleSave(skill.id)}>
+                      <Ionicons name="save" size={24} color="white" />
+                    </SaveButton>
+                  </ContainerEdicao>
+                ) : (
+                  <ContainerEdicao onPress={() => handleEdit(skill.id)}>
+                    <View
+                      style={{ display: "flex", flexDirection: "row", gap: 10 }}
+                    >
+                      <CardLevel>Nível {skill.level}/10</CardLevel>
+                      <Octicons
+                        name="pencil"
+                        size={24}
+                        color="white"
+                        style={{ marginLeft: 10 }}
+                      />
+                    </View>
+                  </ContainerEdicao>
+                )}
+
+                <CardDescription>{skill.skill.descricao}</CardDescription>
+              </CardContainer>
+            ))}
+          </MainContainer>
+        )}
       </Container>
     </ScrollView>
   );
