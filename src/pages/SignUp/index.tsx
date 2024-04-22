@@ -55,7 +55,7 @@ export default function SignUp() {
     >
       <Container>
         <Content>
-          <Title>Sistema Skill</Title>
+          <Title>Cadastro</Title>
 
           <Input
             value={login}
