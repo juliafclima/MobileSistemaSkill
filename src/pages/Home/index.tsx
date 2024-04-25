@@ -12,7 +12,6 @@ import {
   CardImage,
   CardTitle,
   ContainerEdicao,
-  InputField,
   SaveButton,
   CardLevel,
   CardDescription,
@@ -67,10 +66,8 @@ export default function Home({ route }: any) {
       const response = await axios.get(
         `http://192.168.1.159:8080/usuario-skill`,
       );
-      console.warn("resposta api", response.data);
 
       const userID = await AsyncStorage.getItem("userId");
-      console.warn("userId from AsyncStorage:", userID);
 
       const userSkillsFiltered = response.data.filter(
         (skill: Skill) => skill.usuario.id === Number(userID),
@@ -106,14 +103,12 @@ export default function Home({ route }: any) {
         );
 
         const userID = await AsyncStorage.getItem("userId");
-        console.log("userId from AsyncStorage:", userID);
 
         if (userID && !isNaN(Number(userID))) {
           const userSkillsFiltered = response.data.filter(
             (skill: Skill) => skill.usuario.id === Number(userID),
           );
           setUserSkills(userSkillsFiltered);
-          console.log(userSkills);
         } else {
           console.error("userId is not valid:", userID);
         }

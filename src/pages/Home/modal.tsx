@@ -1,7 +1,6 @@
-// ModalAddSkill.js
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Modal, TextInput, Button, View, Alert } from "react-native";
+import { Modal, Button, View, Alert } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -25,7 +24,6 @@ const ModalAddSkill = ({ isOpen, onClose, onSave }: ModalAddSkillProps) => {
 
   const fetchUserSkills = async () => {
     const response = await axios.get(`http://192.168.1.159:8080/skill`);
-    console.log(response.data)
     setUserSkills(response.data);
   };
 
@@ -52,8 +50,6 @@ const ModalAddSkill = ({ isOpen, onClose, onSave }: ModalAddSkillProps) => {
         onSave();
 
         setSelectedSkills([...selectedSkills, selectedSkillId]);
-
-    
       } catch (error) {
         console.error("Error:", error);
       }

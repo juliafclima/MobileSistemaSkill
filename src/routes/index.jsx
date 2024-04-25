@@ -45,7 +45,7 @@ export const Rotas = () => {
           name="Home"
           component={Home}
           options={{
-            tabBarStyle: { display: 'none' },
+            tabBarStyle: { display: "none" },
             tabBarVisible: false,
             tabBarButton: () => null,
             headerShown: false,

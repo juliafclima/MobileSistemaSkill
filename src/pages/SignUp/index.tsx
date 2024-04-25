@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, ScrollView, TouchableOpacity, Text } from "react-native";
+import { Alert, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { Container, Content, Title } from "@/pages/SignUp/styles";
@@ -79,9 +79,6 @@ export default function SignUp() {
             title={loading ? "Carregando..." : "Inscrever-se"}
             onPress={cadastrar}
           />
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text>Já tem conta?</Text>
-          </TouchableOpacity>
         </Content>
       </Container>
     </ScrollView>

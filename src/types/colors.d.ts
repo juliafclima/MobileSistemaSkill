@@ -8,6 +8,7 @@ export interface Colors {
   danger: string;
   dark: string;
   light: string;
+
   gray: {
     500: string;
     800: string;

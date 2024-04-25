@@ -1,4 +1,4 @@
-import { Alert, ScrollView, TouchableOpacity, View, Text } from "react-native";
+import { Alert, ScrollView, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
@@ -65,7 +65,6 @@ export default function SignIn() {
         }
         navigation.navigate("Home", { setUsername, setPassword, novoEstado });
       } catch (error) {
-        console.error("Erro ao realizar login:", error);
         Alert.alert("Senha e/ou login errados!");
       }
     } else {
@@ -75,7 +74,6 @@ export default function SignIn() {
 
   const handleCheckboxChange = () => {
     const novoEstado = !lembrarUsuario;
-    console.log("novoEstado", novoEstado);
     setLembrarUsuario(novoEstado);
     setNovoEstado(novoEstado);
   };
@@ -117,9 +115,6 @@ export default function SignIn() {
           </View>
 
           <Button activeOpacity={0.7} title="Entrar" onPress={logar} />
-          <TouchableOpacity onPress={() => {}}>
-            <Text>Não tem conta?</Text>
-          </TouchableOpacity>
         </Content>
       </Container>
     </ScrollView>
