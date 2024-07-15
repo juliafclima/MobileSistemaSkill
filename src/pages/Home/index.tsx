@@ -1,26 +1,24 @@
-import React, { useEffect, useState } from "react";
+import { AntDesign, Ionicons, Octicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 import { Alert, ScrollView, Text, TextInput, View } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
 
-import {
-  Container,
-  MainContainer,
-  CardContainer,
-  CardImage,
-  CardTitle,
-  ContainerEdicao,
-  SaveButton,
-  CardLevel,
-  CardDescription,
-} from "@/pages/Home/styles";
-import { Button } from "@/components/forms/button";
-import axios from "axios";
-import { putUsuarioSkill } from "@/services/LoginService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { Button } from "../../components/forms/button";
+import { putUsuarioSkill } from "../../services/LoginService";
 import ModalAddSkill from "./modal";
+import {
+  CardContainer,
+  CardDescription,
+  CardImage,
+  CardLevel,
+  CardTitle,
+  Container,
+  ContainerEdicao,
+  MainContainer,
+  SaveButton,
+} from "./styles";
 
 type Skill = {
   id: any;

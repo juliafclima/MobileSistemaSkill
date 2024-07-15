@@ -1,8 +1,8 @@
 import React from "react";
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider } from "styled-components/native";
 
-import theme from "@/global/styles/theme";
-import { Rotas } from "@/routes";
+import theme from "./src/global/styles/theme";
+import { Rotas } from "./src/routes";
 
 export default function App() {
   return (

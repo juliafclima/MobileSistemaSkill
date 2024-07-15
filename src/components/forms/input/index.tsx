@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from "react";
 import { TextInputProps } from "react-native";
 
-import { Container } from "@/components/forms/input/styles";
-import { colors } from "@/global/styles/theme";
-import { Colors } from "@/types/colors";
+import { colors } from "../../../global/styles/theme";
+import { Colors } from "../../../types/colors";
+import { Container } from "./styles";
 
 export const Input: FunctionComponent<TextInputProps> = ({ ...otherProps }) => {
   return (

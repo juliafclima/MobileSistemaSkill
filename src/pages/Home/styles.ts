@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 
-import { colors } from "@/global/styles/theme";
+import { colors } from "../../global/styles/theme";
 
 export const Container = styled.View`
   margin: 0 auto;

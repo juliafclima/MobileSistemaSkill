@@ -3,9 +3,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
 
-import SignIn from "@/pages/SignIn";
-import SignUp from "@/pages/SignUp";
-import Home from "@/pages/Home";
+import SignIn from "../pages/SignIn";
+import SignUp from "../pages/SignUp";
+import Home from "../pages/Home";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 

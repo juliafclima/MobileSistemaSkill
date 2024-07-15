@@ -1,14 +1,14 @@
-import { Alert, ScrollView, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
+import { Alert, ScrollView, View } from "react-native";
 
-import { Input } from "@/components/forms/input";
-import { Button } from "@/components/forms/button";
-import { postLogin } from "@/services/LoginService";
-import LembrarCheckbox from "@/components/lembreDeMim";
-import { PasswordInput } from "@/components/forms/passwordInpu";
-import { Container, Content, Title } from "@/pages/SignIn/styles";
+import { Button } from "../../components/forms/button";
+import { Input } from "../../components/forms/input";
+import { PasswordInput } from "../../components/forms/passwordInpu";
+import LembrarCheckbox from "../../components/lembreDeMim";
+import { postLogin } from "../../services/LoginService";
+import { Container, Content, Title } from "./styles";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
@@ -63,6 +63,7 @@ export default function SignIn() {
             console.error("Error removing data:", error);
           }
         }
+        
         navigation.navigate("Home", { setUsername, setPassword, novoEstado });
       } catch (error) {
         Alert.alert("Senha e/ou login errados!");

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { TextInputProps, View, StyleSheet } from "react-native";
+import { StyleSheet, TextInputProps, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-import { Container } from "@/components/forms/input/styles";
-import { colors } from "@/global/styles/theme";
-import { Colors } from "@/types/colors";
+import { colors } from "../../../global/styles/theme";
+import { Colors } from "../../../types/colors";
+import { Container } from "../input/styles";
 
 export const PasswordInput: React.FunctionComponent<TextInputProps> = ({
   ...otherProps

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { TouchableOpacityProps } from "react-native";
 
-import { Container, Title } from "@/components/forms/button/styles";
+import { Container, Title } from "./styles";
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string;

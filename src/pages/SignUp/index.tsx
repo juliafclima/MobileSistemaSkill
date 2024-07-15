@@ -1,12 +1,12 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { Alert, ScrollView } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
-import { Container, Content, Title } from "@/pages/SignUp/styles";
-import { Input } from "@/components/forms/input";
-import { Button } from "@/components/forms/button";
-import { postCadastro } from "@/services/LoginService";
-import { PasswordInput } from "@/components/forms/passwordInpu";
+import { Button } from "../../components/forms/button";
+import { Input } from "../../components/forms/input";
+import { PasswordInput } from "../../components/forms/passwordInpu";
+import { Container, Content, Title } from "../../pages/SignUp/styles";
+import { postCadastro } from "../../services/LoginService";
 
 export default function SignUp() {
   const [login, setLogin] = useState("");
