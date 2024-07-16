@@ -1,9 +1,13 @@
-import { AntDesign, Ionicons, Octicons } from "@expo/vector-icons";
+import {
+  AntDesign,
+  Ionicons,
+  MaterialIcons,
+  Octicons,
+} from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Alert, ScrollView, Text, TextInput, View } from "react-native";
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert, ScrollView, TextInput, View } from "react-native";
 import Ordenacao from "../../components/filtros/ordenacao";
 import { Button } from "../../components/forms/button";
 import Header from "../../components/header";
@@ -17,6 +21,7 @@ import {
 } from "../../server/UsuarioSkillService";
 import ModalAddSkill from "./modal";
 import {
+  Botao,
   CardContainer,
   CardDescription,
   CardImage,
@@ -25,8 +30,13 @@ import {
   Container,
   ContainerEdicao,
   ContainerFiltros,
+  ContainerLixeira,
+  ContainerPaginacao,
+  FooterEspaco,
+  FooterParagrafo,
   MainContainer,
   SaveButton,
+  Subtitulo,
   Titulo,
 } from "./styles";
 
@@ -270,38 +280,22 @@ export default function Home({ route }: any) {
         />
 
         {userSkills.length === 0 ? (
-          <Text
-            style={{
-              textAlign: "center",
-              color: "#f1f1f1",
-              fontSize: 16,
-              fontWeight: "bold",
-              marginTop: 40,
-            }}
-          >
-            Deseja adicionar alguma skill?
-          </Text>
+          <Subtitulo>Deseja adicionar alguma skill?</Subtitulo>
         ) : (
           <MainContainer style={{ marginTop: 40 }}>
             {userSkills.map((skill) => (
               <CardContainer key={skill.id}>
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "flex-end",
-                  }}
-                >
+                <ContainerLixeira>
                   <AntDesign
                     name="delete"
                     size={24}
                     color="white"
                     onPress={() => handleDelete(skill.id)}
                   />
-                </View>
+                </ContainerLixeira>
 
                 <View style={{ display: "flex", justifyContent: "center" }}>
-                  <CardImage src={skill.skill.url} alt="" />
+                  <CardImage src={skill.skill.url} alt="Imagem card" />
                 </View>
                 <CardTitle>{skill.skill.nome}</CardTitle>
                 {editingCardId === skill.id ? (
@@ -346,6 +340,25 @@ export default function Home({ route }: any) {
             ))}
           </MainContainer>
         )}
+
+        <ContainerPaginacao>
+          {page > 0 && (
+            <Botao onPress={prevPage}>
+              <MaterialIcons name="first-page" size={24} color="white" />
+            </Botao>
+          )}
+
+          {hasNextPage && (
+            <Botao onPress={nextPage}>
+              <MaterialIcons name="last-page" size={24} color="white" />
+            </Botao>
+          )}
+        </ContainerPaginacao>
+        <FooterEspaco />
+
+        <FooterParagrafo>
+          © {new Date().getFullYear()} | Desenvolvido por Júlia Lima
+        </FooterParagrafo>
       </Container>
     </ScrollView>
   );

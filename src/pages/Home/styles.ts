@@ -16,6 +16,14 @@ export const MainContainer = styled.View`
   margin-top: 20px;
 `;
 
+export const Subtitulo = styled.Text`
+  text-align: center;
+  color: "#f1f1f1";
+  font-size: 16;
+  font-weight: bold;
+  margin-top: 40;
+`;
+
 export const CardContainer = styled.View`
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -24,6 +32,12 @@ export const CardContainer = styled.View`
   background-color: ${colors.black};
   width: 100%;
   justify-content: center;
+`;
+
+export const ContainerLixeira = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 `;
 
 export const CardImage = styled.Image`
@@ -90,4 +104,31 @@ export const Titulo = styled.Text`
 
 export const ContainerFiltros = styled.View`
   flex-direction: column;
+`;
+
+export const ContainerPaginacao = styled.View`
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+`;
+
+export const FooterEspaco = styled.View`
+  height: 50px;
+`;
+
+export const FooterParagrafo = styled.Text`
+  margin-top: 100px;
+  margin: auto;
+  font-size: 12px;
+  color: ${colors.light};
+`;
+
+export const Botao = styled.TouchableOpacity`
+  font-size: 1em;
+  padding: 0.5em;
+  border: 1px solid ${colors.gray[500]};
+  border-radius: 5px;
+  width: 80px;
+  font-size: 14px;
 `;
