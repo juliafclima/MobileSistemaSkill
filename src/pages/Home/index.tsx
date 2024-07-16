@@ -5,6 +5,7 @@ import { Alert, ScrollView, Text, TextInput, View } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Button } from "../../components/forms/button";
+import Header from "../../components/header";
 import {
   deleteUsuarioSkill,
   getUsuarioSkill,
@@ -128,8 +129,6 @@ export default function Home({ route }: any) {
         sort
       );
 
-      console.log("resposta fetchData ", response);
-
       if (!response || !Array.isArray(response.content)) {
         console.error("fetchData - Resposta da API inválida:", response);
         return;
@@ -148,7 +147,7 @@ export default function Home({ route }: any) {
   };
 
   const handleEdit = (id: number) => {
-    setNovoNivel(userSkills.find((skill) => skill.id === id)?.level || "0/10");
+    setNovoNivel(userSkills.find((skill) => skill.id === id)?.level || "");
     setEditingCardId(id);
   };
 
@@ -247,6 +246,7 @@ export default function Home({ route }: any) {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#121214" }}>
+      <Header handleLogout={handleLogout} />
       <Container style={{ paddingTop: 40 }}>
         <Text
           style={{
@@ -264,7 +264,6 @@ export default function Home({ route }: any) {
           }}
         >
           <Button title="Adicionar Skill" onPress={openAddSkillModal} />
-          <Button title="Sair" onPress={handleLogout} />
         </View>
 
         <ModalAddSkill

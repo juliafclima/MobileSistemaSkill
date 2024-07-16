@@ -21,7 +21,6 @@ export const CardContainer = styled.View`
   padding: 20px;
   margin-bottom: 20px;
   background-color: ${colors.black};
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
   justify-content: center;
 `;
