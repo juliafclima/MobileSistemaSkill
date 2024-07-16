@@ -4,9 +4,14 @@ import React, { useEffect, useState } from "react";
 import { Alert, ScrollView, Text, TextInput, View } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
 import { Button } from "../../components/forms/button";
-import { putUsuarioSkill } from "../../services/LoginService";
+import {
+  deleteUsuarioSkill,
+  getUsuarioSkill,
+  getUsuarioSkillDesc,
+  getUsuarioSkillFiltro,
+  putUsuarioSkill,
+} from "../../server/UsuarioSkillService";
 import ModalAddSkill from "./modal";
 import {
   CardContainer,
@@ -42,6 +47,13 @@ export default function Home({ route }: any) {
   const [novoNivel, setNovoNivel] = useState("");
   const [editingCardId, setEditingCardId] = useState<number | null>(null);
   const [showAddSkillModal, setShowAddSkillModal] = useState(false);
+  const [sort, setSort] = useState<"asc" | "desc">("asc");
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(3);
+
+  useEffect(() => {
+    fetchData();
+  }, [page, pageSize, sort]);
 
   const navigation = useNavigation();
 
@@ -55,20 +67,39 @@ export default function Home({ route }: any) {
     setShowAddSkillModal(false);
   };
 
-  const handleSaveNewSkill = async () => {
-    await fetchUserSkills();
+  const handleSaveNewSkill = () => {
+    fetchUserSkills();
   };
 
-  const fetchUserSkills = async () => {
+  const fetchUserSkills = async (searchTerm?: string) => {
     try {
-      const response = await axios.get(
-        `http://192.168.1.159:8080/usuario-skill`,
-      );
+      let response;
+
+      if (searchTerm) {
+        response = await getUsuarioSkillFiltro(searchTerm);
+      } else {
+        if (sort === "asc") {
+          response = await getUsuarioSkill(
+            page.toString(),
+            pageSize.toString()
+          );
+        } else {
+          response = await getUsuarioSkillDesc(
+            page.toString(),
+            pageSize.toString()
+          );
+        }
+      }
+
+      if (!response || !Array.isArray(response.content)) {
+        console.error("fetchUserSkills - Resposta da API inválida:", response);
+        return;
+      }
 
       const userID = await AsyncStorage.getItem("userId");
 
-      const userSkillsFiltered = response.data.filter(
-        (skill: Skill) => skill.usuario.id === Number(userID),
+      const userSkillsFiltered = response.content.filter(
+        (skill: Skill) => skill.usuario.id === Number(userID)
       );
 
       setUserSkills(userSkillsFiltered);
@@ -76,10 +107,6 @@ export default function Home({ route }: any) {
       console.error("Error fetching skills:", error);
     }
   };
-
-  useEffect(() => {
-    fetchUserSkills();
-  }, []);
 
   const handleLogout = () => {
     if (novoEstado == false) {
@@ -93,32 +120,35 @@ export default function Home({ route }: any) {
     navigation.navigate("Login");
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `http://192.168.1.159:8080/usuario-skill`,
-        );
+  const fetchData = async () => {
+    try {
+      const response = await getUsuarioSkill(
+        page.toString(),
+        pageSize.toString(),
+        sort
+      );
 
-        const userID = await AsyncStorage.getItem("userId");
+      console.log("resposta fetchData ", response);
 
-        if (userID && !isNaN(Number(userID))) {
-          const userSkillsFiltered = response.data.filter(
-            (skill: Skill) => skill.usuario.id === Number(userID),
-          );
-          setUserSkills(userSkillsFiltered);
-        } else {
-          console.error("userId is not valid:", userID);
-        }
-      } catch (error) {
-        console.error("Error fetching skills:", error);
+      if (!response || !Array.isArray(response.content)) {
+        console.error("fetchData - Resposta da API inválida:", response);
+        return;
       }
-    };
-    fetchData();
-  }, []);
+
+      const userID = await AsyncStorage.getItem("userId");
+
+      const userSkillsFiltered = response.content.filter(
+        (skill: Skill) => skill.usuario.id === Number(userID)
+      );
+
+      setUserSkills(userSkillsFiltered);
+    } catch (error) {
+      console.error("Error fetching skills:", error);
+    }
+  };
 
   const handleEdit = (id: number) => {
-    setNovoNivel(userSkills.find(skill => skill.id === id)?.level || "");
+    setNovoNivel(userSkills.find((skill) => skill.id === id)?.level || "0/10");
     setEditingCardId(id);
   };
 
@@ -141,7 +171,7 @@ export default function Home({ route }: any) {
 
       await putUsuarioSkill(id, novoNivel);
 
-      const updatedSkills = userSkills.map(skill => {
+      const updatedSkills = userSkills.map((skill) => {
         if (skill.id === id) {
           return { ...skill, level: novoNivel };
         }
@@ -156,9 +186,9 @@ export default function Home({ route }: any) {
   };
 
   const handleDelete = async (id: number) => {
-    await axios.delete(`http://192.168.1.159:8080/usuario-skill/${id}`);
+    await deleteUsuarioSkill(id);
 
-    const updatedSkills = userSkills.filter(skill => skill.id !== id);
+    const updatedSkills = userSkills.filter((skill) => skill.id !== id);
     setUserSkills(updatedSkills);
 
     if (editingCardId === id) {
@@ -166,6 +196,53 @@ export default function Home({ route }: any) {
     }
 
     Alert.alert("Card removido com sucesso!");
+  };
+
+  const handleChangeOrderClick = async () => {
+    try {
+      const newSortOrder = sort === "asc" ? "desc" : "asc";
+      setSort(newSortOrder);
+      setPage(0);
+
+      let response;
+      if (newSortOrder === "asc") {
+        response = await getUsuarioSkill("0", pageSize.toString());
+      } else {
+        response = await getUsuarioSkillDesc("0", pageSize.toString());
+      }
+
+      if (!response || !Array.isArray(response.content)) {
+        console.error(
+          `Resposta inválida ao alterar ordem para ${newSortOrder}:`,
+          response
+        );
+        return;
+      }
+
+      const userID = await AsyncStorage.getItem("userId");
+
+      const userSkillsFiltered = response.content.filter(
+        (skill: Skill) => skill.usuario.id === Number(userID)
+      );
+
+      setUserSkills(userSkillsFiltered);
+    } catch (error) {
+      console.error("Erro ao alterar ordem:", error);
+    }
+  };
+
+  const hasNextPage = userSkills.length === pageSize;
+
+  const nextPage = () => {
+    if (hasNextPage) {
+      setPage(page + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (page > 0) {
+      setPage(page - 1);
+    }
   };
 
   return (
@@ -210,7 +287,7 @@ export default function Home({ route }: any) {
           </Text>
         ) : (
           <MainContainer style={{ marginTop: 40 }}>
-            {userSkills.map(skill => (
+            {userSkills.map((skill) => (
               <CardContainer key={skill.id}>
                 <View
                   style={{

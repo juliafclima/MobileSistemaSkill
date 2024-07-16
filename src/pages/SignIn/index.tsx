@@ -7,8 +7,8 @@ import { Button } from "../../components/forms/button";
 import { Input } from "../../components/forms/input";
 import { PasswordInput } from "../../components/forms/passwordInpu";
 import LembrarCheckbox from "../../components/lembreDeMim";
-import { postLogin } from "../../services/LoginService";
 import { Container, Content, Title } from "./styles";
+import { postLogin } from "../../server/LoginService";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");

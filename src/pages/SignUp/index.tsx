@@ -6,7 +6,7 @@ import { Button } from "../../components/forms/button";
 import { Input } from "../../components/forms/input";
 import { PasswordInput } from "../../components/forms/passwordInpu";
 import { Container, Content, Title } from "../../pages/SignUp/styles";
-import { postCadastro } from "../../services/LoginService";
+import { postCadastro } from "../../server/LoginService";
 
 export default function SignUp() {
   const [login, setLogin] = useState("");
@@ -59,7 +59,7 @@ export default function SignUp() {
 
           <Input
             value={login}
-            onChangeText={text => setLogin(text)}
+            onChangeText={(text) => setLogin(text)}
             placeholder="Digite seu login"
           />
 
