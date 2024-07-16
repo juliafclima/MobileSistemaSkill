@@ -1,8 +1,9 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Modal, Button, View, Alert } from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert, Button, Modal, View } from "react-native";
+import { getSkill } from "../../server/SkillService";
 
 interface ModalAddSkillProps {
   isOpen: boolean;
@@ -22,14 +23,26 @@ const ModalAddSkill = ({ isOpen, onClose, onSave }: ModalAddSkillProps) => {
   const [selectedSkillId, setSelectedSkillId] = useState<number | null>(null);
   const [selectedSkills, setSelectedSkills] = useState<number[]>([]);
 
-  const fetchUserSkills = async () => {
-    const response = await axios.get(`http://192.168.1.159:8080/skill`);
-    setUserSkills(response.data);
+  const [isModalNovaOpen, setIsModalNovaOpen] = useState<boolean>(false);
+
+  const [page, setPage] = useState<number>(0);
+  const [size, setSize] = useState<number>(30);
+
+  const fetchUserSkills = async (page: number, size: number) => {
+    try {
+      const response = await getSkill(page, size);
+      const maxPageSize = response.data.totalElements;
+
+      setSize(maxPageSize);
+      setUserSkills(response.data.content);
+    } catch (error) {
+      console.error("Error fetching user skills:", error);
+    }
   };
 
   useEffect(() => {
-    fetchUserSkills();
-  }, []);
+    fetchUserSkills(page, size);
+  }, [page, size]);
 
   const handleSubmit = async () => {
     if (selectedSkillId !== null) {
@@ -41,14 +54,14 @@ const ModalAddSkill = ({ isOpen, onClose, onSave }: ModalAddSkillProps) => {
       const userID = Number(await AsyncStorage.getItem("userId"));
 
       try {
-        await axios.post(`http://192.168.1.159:8080/usuario-skill`, {
+        await axios.post(`http://localhost:8080/usuario-skill`, {
           level: "",
           usuario: { id: userID },
           skill: { id: selectedSkillId },
         });
 
         onSave();
-
+        fetchUserSkills(page, size);
         setSelectedSkills([...selectedSkills, selectedSkillId]);
       } catch (error) {
         console.error("Error:", error);
@@ -76,7 +89,7 @@ const ModalAddSkill = ({ isOpen, onClose, onSave }: ModalAddSkillProps) => {
               setSelectedSkillId(itemValue)
             }
           >
-            {userSkills.map(skill => (
+            {userSkills.map((skill) => (
               <Picker.Item key={skill.id} label={skill.nome} value={skill.id} />
             ))}
           </Picker>
