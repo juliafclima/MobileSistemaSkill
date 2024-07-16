@@ -9,6 +9,7 @@ export const Container = styled.View`
   color: ${colors.light};
   margin: 0px;
   justify-content: center;
+  padding-top: 4px;
 `;
 
 export const MainContainer = styled.View`
@@ -76,4 +77,17 @@ export const ContainerEdicao = styled.TouchableOpacity`
   gap: 15px;
   flex-direction: row;
   margin-bottom: 20px;
+`;
+
+export const Titulo = styled.Text`
+  text-align: center;
+  color: ${colors.light};
+  font-size: 31px;
+  letter-spacing: 3px;
+  word-spacing: 3.2px;
+  margin-top: 20px;
+`;
+
+export const ContainerFiltros = styled.View`
+  flex-direction: column;
 `;

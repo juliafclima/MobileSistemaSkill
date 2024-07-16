@@ -1,3 +1,4 @@
+import Feather from "@expo/vector-icons/Feather";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
@@ -27,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({ handleLogout }) => {
       {usuarioLogado && <WelcomeText>Olá, {usuarioLogado}! :)</WelcomeText>}
 
       <LogoutButton onPress={handleLogout}>
-        <LogoutText>Sair</LogoutText>
+        <Feather name="log-out" size={24} color="black" />
       </LogoutButton>
     </HeaderContainer>
   );
@@ -59,12 +60,6 @@ const LogoutButton = styled.TouchableOpacity`
   border-width: 2.5px;
   border-color: ${colors.light};
   background-color: ${colors.primary};
-`;
-
-const LogoutText = styled.Text`
-  color: ${colors.dark};
-  font-weight: bold;
-  font-size: 16px;
 `;
 
 export default Header;

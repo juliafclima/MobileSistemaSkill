@@ -4,8 +4,10 @@ import React, { useEffect, useState } from "react";
 import { Alert, ScrollView, Text, TextInput, View } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Ordenacao from "../../components/filtros/ordenacao";
 import { Button } from "../../components/forms/button";
 import Header from "../../components/header";
+import SearchInput from "../../components/SearchInput";
 import {
   deleteUsuarioSkill,
   getUsuarioSkill,
@@ -22,8 +24,10 @@ import {
   CardTitle,
   Container,
   ContainerEdicao,
+  ContainerFiltros,
   MainContainer,
   SaveButton,
+  Titulo,
 } from "./styles";
 
 type Skill = {
@@ -247,24 +251,17 @@ export default function Home({ route }: any) {
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#121214" }}>
       <Header handleLogout={handleLogout} />
-      <Container style={{ paddingTop: 40 }}>
-        <Text
-          style={{
-            textAlign: "center",
-            color: "#f1f1f1",
-            fontSize: 20,
-            fontWeight: "bolder",
-          }}
-        >
-          Gerenciamento de Skills
-        </Text>
-        <View
-          style={{
-            flexDirection: "column",
-          }}
-        >
-          <Button title="Adicionar Skill" onPress={openAddSkillModal} />
-        </View>
+      <Container>
+        <Titulo>Gerenciamento de Skills</Titulo>
+
+        <ContainerFiltros>
+          <SearchInput onSearch={fetchUserSkills} />
+          <Ordenacao
+            ascending={sort === "asc"}
+            onClick={handleChangeOrderClick}
+          />
+          <Button title="Adicionar" onPress={openAddSkillModal} />
+        </ContainerFiltros>
 
         <ModalAddSkill
           isOpen={showAddSkillModal}
