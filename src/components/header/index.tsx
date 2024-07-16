@@ -2,6 +2,7 @@ import Feather from "@expo/vector-icons/Feather";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
+
 import logo from "../../assets/logo.png";
 import { colors } from "../../global/styles/theme";
 

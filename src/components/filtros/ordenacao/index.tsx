@@ -1,5 +1,6 @@
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+
 import { colors } from "../../../global/styles/theme";
 
 interface SortButtonProps {

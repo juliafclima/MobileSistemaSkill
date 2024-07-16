@@ -67,19 +67,6 @@ export const CardLevel = styled.Text`
   color: #777;
 `;
 
-export const InputField = styled.TextInput`
-  font-size: 16px;
-  border: 1px solid black;
-  outline: none;
-  padding: 3px;
-  border-radius: 19px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  width: 100px;
-`;
-
 export const SaveButton = styled.TouchableOpacity`
   border: none;
   display: flex;

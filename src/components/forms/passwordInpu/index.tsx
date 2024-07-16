@@ -1,6 +1,6 @@
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React, { useState } from "react";
 import { StyleSheet, TextInputProps, View } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
 
 import { colors } from "../../../global/styles/theme";
 import { Colors } from "../../../types/colors";
@@ -19,7 +19,7 @@ export const PasswordInput: React.FunctionComponent<TextInputProps> = ({
         {...otherProps}
         style={styles.input}
       />
-      <Icon
+      <MaterialIcons
         name={secureTextEntry ? "visibility-off" : "visibility"}
         size={24}
         color="white"

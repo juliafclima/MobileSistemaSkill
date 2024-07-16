@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, StyleSheet, TextInput, View } from "react-native";
+
 import { colors } from "../../global/styles/theme";
 
 const SearchInput = ({ onSearch }: any) => {

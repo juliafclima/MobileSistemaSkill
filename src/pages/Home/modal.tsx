@@ -3,6 +3,7 @@ import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Modal, View } from "react-native";
+
 import { getSkill } from "../../server/SkillService";
 
 interface ModalAddSkillProps {
@@ -22,9 +23,6 @@ const ModalAddSkill = ({ isOpen, onClose, onSave }: ModalAddSkillProps) => {
   const [userSkills, setUserSkills] = useState<Skill[]>([]);
   const [selectedSkillId, setSelectedSkillId] = useState<number | null>(null);
   const [selectedSkills, setSelectedSkills] = useState<number[]>([]);
-
-  const [isModalNovaOpen, setIsModalNovaOpen] = useState<boolean>(false);
-
   const [page, setPage] = useState<number>(0);
   const [size, setSize] = useState<number>(30);
 
