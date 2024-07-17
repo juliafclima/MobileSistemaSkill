@@ -6,7 +6,9 @@ import { colors } from "../../../global/styles/theme";
 import { Colors } from "../../../types/colors";
 import { Container } from "../input/styles";
 
-export const PasswordInput: React.FunctionComponent<TextInputProps> = ({
+interface PasswordInputProps extends TextInputProps {}
+
+export const PasswordInput: React.FC<PasswordInputProps> = ({
   ...otherProps
 }) => {
   const [secureTextEntry, setSecureTextEntry] = useState(true);

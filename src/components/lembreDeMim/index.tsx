@@ -15,6 +15,7 @@ const LembrarCheckbox: React.FC<Props> = ({ lembrarUsuario, onChange }) => {
         <View style={styles.checkboxWrapper}>
           {lembrarUsuario && <View style={styles.innerCheckbox} />}
         </View>
+        
       </TouchableOpacity>
       <Text style={styles.text}>Lembre de mim</Text>
     </View>

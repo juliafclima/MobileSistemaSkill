@@ -7,12 +7,13 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Alert, ScrollView, TextInput, View } from "react-native";
+import { Alert, ScrollView, StatusBar, TextInput, View } from "react-native";
 
 import Ordenacao from "../../components/filtros/ordenacao";
 import { Button } from "../../components/forms/button";
 import Header from "../../components/header";
 import SearchInput from "../../components/SearchInput";
+import ModalAddSkill from "../../components/skills/adicionarSkill/modal";
 import {
   deleteUsuarioSkill,
   getUsuarioSkill,
@@ -20,29 +21,10 @@ import {
   getUsuarioSkillFiltro,
   putUsuarioSkill,
 } from "../../server/UsuarioSkillService";
-import ModalAddSkill from "./modal";
-import {
-  Botao,
-  CardContainer,
-  CardDescription,
-  CardImage,
-  CardLevel,
-  CardTitle,
-  Container,
-  ContainerEdicao,
-  ContainerFiltros,
-  ContainerLixeira,
-  ContainerPaginacao,
-  FooterEspaco,
-  FooterParagrafo,
-  MainContainer,
-  SaveButton,
-  Subtitulo,
-  Titulo,
-} from "./styles";
+import * as H from "./styles";
 
 type Skill = {
-  id: any;
+  id: number;
   level: string;
   usuario: {
     id: number;
@@ -67,24 +49,40 @@ export default function Home({ route }: any) {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(3);
 
+  const navigation = useNavigation();
+  const { setUsername, setPassword } = route.params;
+
   useEffect(() => {
     fetchData();
   }, [page, pageSize, sort]);
 
-  const navigation = useNavigation();
+  const fetchData = async () => {
+    try {
+      let response;
 
-  const { setUsername, setPassword, novoEstado } = route.params;
+      if (sort === "asc") {
+        response = await getUsuarioSkill(page.toString(), pageSize.toString());
+      } else {
+        response = await getUsuarioSkillDesc(
+          page.toString(),
+          pageSize.toString()
+        );
+      }
 
-  const openAddSkillModal = () => {
-    setShowAddSkillModal(true);
-  };
+      if (!response || !Array.isArray(response.content)) {
+        console.error("fetchData - Resposta da API inválida:", response);
+        return;
+      }
 
-  const closeAddSkillModal = () => {
-    setShowAddSkillModal(false);
-  };
+      const userID = await AsyncStorage.getItem("userId");
+      const userSkillsFiltered = response.content.filter(
+        (skill: Skill) => skill.usuario.id === Number(userID)
+      );
 
-  const handleSaveNewSkill = () => {
-    fetchUserSkills();
+      setUserSkills(userSkillsFiltered);
+    } catch (error) {
+      console.error("Error fetching skills:", error);
+    }
   };
 
   const fetchUserSkills = async (searchTerm?: string) => {
@@ -120,44 +118,7 @@ export default function Home({ route }: any) {
 
       setUserSkills(userSkillsFiltered);
     } catch (error) {
-      console.error("Error fetching skills:", error);
-    }
-  };
-
-  const handleLogout = () => {
-    if (novoEstado == false) {
-      AsyncStorage.removeItem("username");
-      AsyncStorage.removeItem("password");
-      setUsername("");
-      setPassword("");
-    }
-
-    AsyncStorage.removeItem("userId");
-    navigation.navigate("Login");
-  };
-
-  const fetchData = async () => {
-    try {
-      const response = await getUsuarioSkill(
-        page.toString(),
-        pageSize.toString(),
-        sort
-      );
-
-      if (!response || !Array.isArray(response.content)) {
-        console.error("fetchData - Resposta da API inválida:", response);
-        return;
-      }
-
-      const userID = await AsyncStorage.getItem("userId");
-
-      const userSkillsFiltered = response.content.filter(
-        (skill: Skill) => skill.usuario.id === Number(userID)
-      );
-
-      setUserSkills(userSkillsFiltered);
-    } catch (error) {
-      console.error("Error fetching skills:", error);
+      console.error("Erro ao buscar habilidades:", error);
     }
   };
 
@@ -245,6 +206,23 @@ export default function Home({ route }: any) {
     }
   };
 
+  const openAddSkillModal = () => setShowAddSkillModal(true);
+
+  const closeAddSkillModal = () => setShowAddSkillModal(false);
+
+  const handleSaveNewSkill = () => {
+    fetchUserSkills();
+  };
+
+  const handleLogout = () => {
+    AsyncStorage.removeItem("username");
+    AsyncStorage.removeItem("password");
+    AsyncStorage.removeItem("userId");
+    setUsername("");
+    setPassword("");
+    navigation.navigate("Login");
+  };
+
   const hasNextPage = userSkills.length === pageSize;
 
   const nextPage = () => {
@@ -261,18 +239,19 @@ export default function Home({ route }: any) {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "#121214" }}>
+      <StatusBar />
       <Header handleLogout={handleLogout} />
-      <Container>
-        <Titulo>Gerenciamento de Skills</Titulo>
+      <H.Container>
+        <H.Titulo>Gerenciamento de Skills</H.Titulo>
 
-        <ContainerFiltros>
+        <H.ContainerFiltros>
           <SearchInput onSearch={fetchUserSkills} />
           <Ordenacao
             ascending={sort === "asc"}
             onClick={handleChangeOrderClick}
           />
           <Button title="Adicionar" onPress={openAddSkillModal} />
-        </ContainerFiltros>
+        </H.ContainerFiltros>
 
         <ModalAddSkill
           isOpen={showAddSkillModal}
@@ -281,26 +260,28 @@ export default function Home({ route }: any) {
         />
 
         {userSkills.length === 0 ? (
-          <Subtitulo>Deseja adicionar alguma skill?</Subtitulo>
+          <H.Subtitulo style={{ color: "white" }}>
+            Deseja adicionar alguma skill?
+          </H.Subtitulo>
         ) : (
-          <MainContainer style={{ marginTop: 40 }}>
+          <H.MainContainer style={{ marginTop: 40 }}>
             {userSkills.map((skill) => (
-              <CardContainer key={skill.id}>
-                <ContainerLixeira>
+              <H.CardContainer key={skill.id}>
+                <H.ContainerLixeira>
                   <AntDesign
                     name="delete"
                     size={24}
                     color="white"
                     onPress={() => handleDelete(skill.id)}
                   />
-                </ContainerLixeira>
+                </H.ContainerLixeira>
 
                 <View style={{ display: "flex", justifyContent: "center" }}>
-                  <CardImage src={skill.skill.url} alt="Imagem card" />
+                  <H.CardImage src={skill.skill.url} alt="Imagem card" />
                 </View>
-                <CardTitle>{skill.skill.nome}</CardTitle>
+                <H.CardTitle>{skill.skill.nome}</H.CardTitle>
                 {editingCardId === skill.id ? (
-                  <ContainerEdicao>
+                  <H.ContainerEdicao>
                     <TextInput
                       style={{
                         backgroundColor: "white",
@@ -316,16 +297,16 @@ export default function Home({ route }: any) {
                       keyboardType="numeric"
                     />
 
-                    <SaveButton onPress={() => handleSave(skill.id)}>
+                    <H.SaveButton onPress={() => handleSave(skill.id)}>
                       <Ionicons name="save" size={24} color="white" />
-                    </SaveButton>
-                  </ContainerEdicao>
+                    </H.SaveButton>
+                  </H.ContainerEdicao>
                 ) : (
-                  <ContainerEdicao onPress={() => handleEdit(skill.id)}>
+                  <H.ContainerEdicao onPress={() => handleEdit(skill.id)}>
                     <View
                       style={{ display: "flex", flexDirection: "row", gap: 10 }}
                     >
-                      <CardLevel>Nível {skill.level}/10</CardLevel>
+                      <H.CardLevel>Nível {skill.level}/10</H.CardLevel>
                       <Octicons
                         name="pencil"
                         size={24}
@@ -333,34 +314,34 @@ export default function Home({ route }: any) {
                         style={{ marginLeft: 10 }}
                       />
                     </View>
-                  </ContainerEdicao>
+                  </H.ContainerEdicao>
                 )}
 
-                <CardDescription>{skill.skill.descricao}</CardDescription>
-              </CardContainer>
+                <H.CardDescription>{skill.skill.descricao}</H.CardDescription>
+              </H.CardContainer>
             ))}
-          </MainContainer>
+          </H.MainContainer>
         )}
 
-        <ContainerPaginacao>
+        <H.ContainerPaginacao>
           {page > 0 && (
-            <Botao onPress={prevPage}>
+            <H.Botao onPress={prevPage}>
               <MaterialIcons name="first-page" size={24} color="white" />
-            </Botao>
+            </H.Botao>
           )}
 
           {hasNextPage && (
-            <Botao onPress={nextPage}>
+            <H.Botao onPress={nextPage}>
               <MaterialIcons name="last-page" size={24} color="white" />
-            </Botao>
+            </H.Botao>
           )}
-        </ContainerPaginacao>
-        <FooterEspaco />
+        </H.ContainerPaginacao>
+        <H.FooterEspaco />
 
-        <FooterParagrafo>
+        <H.FooterParagrafo>
           © {new Date().getFullYear()} | Desenvolvido por Júlia Lima
-        </FooterParagrafo>
-      </Container>
+        </H.FooterParagrafo>
+      </H.Container>
     </ScrollView>
   );
 }

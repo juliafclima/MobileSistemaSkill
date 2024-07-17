@@ -3,9 +3,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
 
+import SignIn from "../pages/Auth/SignIn";
+import SignUp from "../pages/Auth/SignUp";
 import Home from "../pages/Home";
-import SignIn from "../pages/SignIn";
-import SignUp from "../pages/SignUp";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 

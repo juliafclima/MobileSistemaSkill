@@ -3,18 +3,19 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { Alert, ScrollView, View } from "react-native";
 
-import { Button } from "../../components/forms/button";
-import { Input } from "../../components/forms/input";
-import { PasswordInput } from "../../components/forms/passwordInpu";
-import LembrarCheckbox from "../../components/lembreDeMim";
-import { Container, Content, Title } from "./styles";
-import { postLogin } from "../../server/LoginService";
+import { Button } from "../../../components/forms/button";
+import { Input } from "../../../components/forms/input";
+import { PasswordInput } from "../../../components/forms/passwordInpu";
+import LembrarCheckbox from "../../../components/lembreDeMim";
+import { postLogin } from "../../../server/LoginService";
+import { Container, Content, Title } from "../styles";
 
-export default function SignIn() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [lembrarUsuario, setLembrarUsuario] = useState(false);
-  const [novoEstado, setNovoEstado] = useState(false);
+const SignIn: React.FC = () => {
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    lembrarUsuario: false,
+  });
 
   const navigation = useNavigation();
 
@@ -25,9 +26,12 @@ export default function SignIn() {
         const storedPassword = await AsyncStorage.getItem("password");
 
         if (storedUsername && storedPassword) {
-          setUsername(storedUsername);
-          setPassword(storedPassword);
-          setLembrarUsuario(true);
+          setFormData({
+            ...formData,
+            username: storedUsername,
+            password: storedPassword,
+            lembrarUsuario: true,
+          });
         }
       } catch (error) {
         console.error("Error retrieving data:", error);
@@ -38,35 +42,26 @@ export default function SignIn() {
   }, []);
 
   const logar = async () => {
-    if (password && username) {
+    const { username, password, lembrarUsuario } = formData;
+
+    if (username && password) {
       try {
         const response = await postLogin(username, password);
 
         const userId = response.data.userId;
-
-        if (userId) {
-          await AsyncStorage.setItem("userId", userId.toString());
-        }
+        await AsyncStorage.setItem("userId", userId.toString());
 
         if (lembrarUsuario) {
-          try {
-            await AsyncStorage.setItem("username", username);
-            await AsyncStorage.setItem("password", password);
-          } catch (error) {
-            console.error("Error saving data:", error);
-          }
+          await AsyncStorage.setItem("username", username);
+          await AsyncStorage.setItem("password", password);
         } else {
-          try {
-            await AsyncStorage.removeItem("username");
-            await AsyncStorage.removeItem("password");
-          } catch (error) {
-            console.error("Error removing data:", error);
-          }
+          await AsyncStorage.removeItem("username");
+          await AsyncStorage.removeItem("password");
         }
-        
-        navigation.navigate("Home", { setUsername, setPassword, novoEstado });
+
+        navigation.navigate("Home", { username, password, novoEstado: true });
       } catch (error) {
-        Alert.alert("Senha e/ou login errados!");
+        Alert.alert("Senha e/ou login incorretos!");
       }
     } else {
       Alert.alert("Preencha todos os campos");
@@ -74,9 +69,8 @@ export default function SignIn() {
   };
 
   const handleCheckboxChange = () => {
-    const novoEstado = !lembrarUsuario;
-    setLembrarUsuario(novoEstado);
-    setNovoEstado(novoEstado);
+    const novoEstado = !formData.lembrarUsuario;
+    setFormData({ ...formData, lembrarUsuario: novoEstado });
   };
 
   return (
@@ -87,17 +81,21 @@ export default function SignIn() {
       <Container>
         <Content>
           <Title>Sistema Skill</Title>
-          <Title>login</Title>
+          <Title>Login</Title>
 
           <Input
-            value={username}
-            onChangeText={text => setUsername(text)}
+            value={formData.username}
+            onChangeText={(text) =>
+              setFormData({ ...formData, username: text })
+            }
             placeholder="Digite seu login"
           />
 
           <PasswordInput
-            value={password}
-            onChangeText={setPassword}
+            value={formData.password}
+            onChangeText={(text) =>
+              setFormData({ ...formData, password: text })
+            }
             placeholder="Digite sua senha"
           />
 
@@ -110,7 +108,7 @@ export default function SignIn() {
             }}
           >
             <LembrarCheckbox
-              lembrarUsuario={lembrarUsuario}
+              lembrarUsuario={formData.lembrarUsuario}
               onChange={handleCheckboxChange}
             />
           </View>
@@ -120,4 +118,6 @@ export default function SignIn() {
       </Container>
     </ScrollView>
   );
-}
+};
+
+export default SignIn;

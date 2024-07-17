@@ -1,9 +1,8 @@
 export interface Colors {
-  black: string;
-  white: string;
   primary: string;
   primaryLight: string;
   secondary: string;
+  secondaryDark: string;
   success: string;
   danger: string;
   dark: string;

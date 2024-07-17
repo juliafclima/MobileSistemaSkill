@@ -3,7 +3,11 @@ import { Button, StyleSheet, TextInput, View } from "react-native";
 
 import { colors } from "../../global/styles/theme";
 
-const SearchInput = ({ onSearch }: any) => {
+interface SearchInputProps {
+  onSearch: (searchTerm: string) => void;
+}
+
+const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = async () => {

@@ -18,10 +18,10 @@ export const MainContainer = styled.View`
 
 export const Subtitulo = styled.Text`
   text-align: center;
-  color: "#f1f1f1";
-  font-size: 16;
+  color: #f1f1f1;
+  font-size: 16px;
   font-weight: bold;
-  margin-top: 40;
+  margin-top: 40px;
 `;
 
 export const CardContainer = styled.View`
@@ -45,9 +45,11 @@ export const CardImage = styled.Image`
   height: 100px;
   margin: auto;
   margin-top: 10px;
+  margin-bottom: 10px;
   background-color: white;
   padding: 100px;
   border: 10px solid white;
+  resize-mode: contain;
 `;
 
 export const CardTitle = styled.Text`

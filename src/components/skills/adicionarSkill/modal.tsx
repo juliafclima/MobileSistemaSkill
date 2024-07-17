@@ -3,8 +3,7 @@ import { Picker } from "@react-native-picker/picker";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Modal, View } from "react-native";
-
-import { getSkill } from "../../server/SkillService";
+import { getSkill } from "../../../server/SkillService";
 
 interface ModalAddSkillProps {
   isOpen: boolean;
@@ -52,7 +51,7 @@ const ModalAddSkill = ({ isOpen, onClose, onSave }: ModalAddSkillProps) => {
       const userID = Number(await AsyncStorage.getItem("userId"));
 
       try {
-        await axios.post(`http://localhost:8080/usuario-skill`, {
+        await axios.post(`http://192.168.1.159:8080/usuario-skill`, {
           level: "",
           usuario: { id: userID },
           skill: { id: selectedSkillId },

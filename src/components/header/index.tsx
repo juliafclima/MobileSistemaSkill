@@ -15,17 +15,21 @@ const Header: React.FC<HeaderProps> = ({ handleLogout }) => {
 
   useEffect(() => {
     const fetchUsername = async () => {
-      const username = await AsyncStorage.getItem("username");
-      if (username) {
+      try {
+        const username = await AsyncStorage.getItem("username");
         setUsuarioLogado(username);
+      } catch (error) {
+        console.error("Erro ao buscar nome de usuário do AsyncStorage:", error);
       }
     };
+
     fetchUsername();
   }, []);
 
   return (
     <HeaderContainer>
       <Logo source={logo} />
+
       {usuarioLogado && <WelcomeText>Olá, {usuarioLogado}! :)</WelcomeText>}
 
       <LogoutButton onPress={handleLogout}>
@@ -40,7 +44,7 @@ const HeaderContainer = styled.View`
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  background-color: #fff;
+  background-color: ${colors.light};
 `;
 
 const Logo = styled.Image`
@@ -52,7 +56,7 @@ const WelcomeText = styled.Text`
   text-align: right;
   margin: 0;
   font-size: 18px;
-  color: #333;
+  color: ${colors.gray[500]};
 `;
 
 const LogoutButton = styled.TouchableOpacity`
