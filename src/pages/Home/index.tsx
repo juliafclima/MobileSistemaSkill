@@ -47,7 +47,7 @@ export default function Home({ route }: any) {
   const [showAddSkillModal, setShowAddSkillModal] = useState(false);
   const [sort, setSort] = useState<"asc" | "desc">("asc");
   const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(3);
+  const [pageSize, setPageSize] = useState(1);
 
   const navigation = useNavigation();
 

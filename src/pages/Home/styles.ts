@@ -18,18 +18,18 @@ export const MainContainer = styled.View`
 
 export const Subtitulo = styled.Text`
   text-align: center;
-  color: #f1f1f1;
+  color: ${colors.light};
   font-size: 16px;
   font-weight: bold;
   margin-top: 40px;
 `;
 
 export const CardContainer = styled.View`
-  border: 1px solid #ddd;
+  border: 1px solid ${colors.gray[500]};
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 20px;
-  background-color: ${colors.black};
+  background-color: ${colors.dark};
   width: 100%;
   justify-content: center;
 `;
@@ -46,27 +46,26 @@ export const CardImage = styled.Image`
   margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
-  background-color: white;
+  background-color: ${colors.light};
   padding: 100px;
-  border: 10px solid white;
   resize-mode: contain;
 `;
 
 export const CardTitle = styled.Text`
   font-size: 20px;
-  color: #fff;
+  color: ${colors.light};
   margin-top: 20px;
 `;
 
 export const CardDescription = styled.Text`
   font-size: 14px;
-  color: #666;
+  color: ${colors.gray[500]};
   text-align: justify;
 `;
 
 export const CardLevel = styled.Text`
   font-size: 16px;
-  color: #777;
+  color: ${colors.gray[500]};
 `;
 
 export const SaveButton = styled.TouchableOpacity`

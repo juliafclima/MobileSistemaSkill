@@ -51,8 +51,7 @@ const ModalAddSkill = ({ isOpen, onClose, onSave }: ModalAddSkillProps) => {
       const userID = Number(await AsyncStorage.getItem("userId"));
 
       try {
-        //await axios.post(`http://192.168.1.159:8080/usuario-skill`, {
-        await axios.post(`http://localhost:8080/usuario-skill`, {
+        await axios.post(`http://192.168.1.159:8080/usuario-skill`, {
           level: "",
           usuario: { id: userID },
           skill: { id: selectedSkillId },

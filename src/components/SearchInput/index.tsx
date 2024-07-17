@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginVertical: 10,
+    flex: 1
   },
 
   searchInputStyle: {
@@ -47,8 +48,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.gray[500],
     borderRadius: 4,
-    width: 200,
     color: colors.light,
+    fontWeight: "900",
   },
 });
 
