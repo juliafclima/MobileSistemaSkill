@@ -50,7 +50,6 @@ export default function Home({ route }: any) {
   const [pageSize, setPageSize] = useState(3);
 
   const navigation = useNavigation();
-  const { setUsername, setPassword } = route.params;
 
   useEffect(() => {
     fetchData();
@@ -218,8 +217,7 @@ export default function Home({ route }: any) {
     AsyncStorage.removeItem("username");
     AsyncStorage.removeItem("password");
     AsyncStorage.removeItem("userId");
-    setUsername("");
-    setPassword("");
+
     navigation.navigate("Login");
   };
 
