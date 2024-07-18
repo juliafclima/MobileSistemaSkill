@@ -57,6 +57,24 @@ npm run dev
 
 <img width="176" alt="image" src="https://github.com/juliafclima/MobileSistemaSkill/assets/134448650/bebce1b9-2fb2-4474-b9e3-9e396c4bce72">
 
+## Atualização do projeto
+
+Novas Features: 
+- Typescript
+- Componentização
+- Filtro
+- Paginação
+- Ordenação
+- Tratamento de exceção
+
+<img width="176" alt="image" src="https://github.com/user-attachments/assets/35232d4e-38e3-46bc-8ae2-229e7e3f3a92">
+
+<img width="176" alt="image" src="https://github.com/user-attachments/assets/9e9b466f-be9c-4056-ac17-52850782982c">
+
+<img width="176" alt="image" src="https://github.com/user-attachments/assets/775f457e-9341-4264-88fb-51cec24795e5">
+
+<img width="176" alt="image" src="https://github.com/user-attachments/assets/26f198a5-52dc-4520-8a38-b3e7541732ad">
+
 ## Bibliotecas e tecnologias utilizadas
 
 - TypeScript
