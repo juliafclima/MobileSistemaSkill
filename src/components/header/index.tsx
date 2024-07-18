@@ -1,6 +1,5 @@
 import Feather from "@expo/vector-icons/Feather";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components/native";
 
 import logo from "../../assets/logo.png";
@@ -11,26 +10,11 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ handleLogout }) => {
-  const [usuarioLogado, setUsuarioLogado] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchUsername = async () => {
-      try {
-        const username = await AsyncStorage.getItem("username");
-        setUsuarioLogado(username);
-      } catch (error) {
-        console.error("Erro ao buscar nome de usuário do AsyncStorage:", error);
-      }
-    };
-
-    fetchUsername();
-  }, []);
-
   return (
     <HeaderContainer>
       <Logo source={logo} />
 
-      {usuarioLogado && <WelcomeText>Olá, {usuarioLogado}! :)</WelcomeText>}
+      <WelcomeText>Olá, usuário! :)</WelcomeText>
 
       <LogoutButton onPress={handleLogout}>
         <Feather name="log-out" size={24} color="black" />

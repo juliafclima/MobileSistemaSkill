@@ -49,41 +49,20 @@ export default function Home({ route }: any) {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(1);
 
-  const navigation = useNavigation();
-
   useEffect(() => {
     fetchData();
   }, [page, pageSize, sort]);
 
-  const fetchData = async () => {
-    try {
-      let response;
+  const navigation = useNavigation();
 
-      if (sort === "asc") {
-        response = await getUsuarioSkill(page.toString(), pageSize.toString());
-      } else {
-        response = await getUsuarioSkillDesc(
-          page.toString(),
-          pageSize.toString()
-        );
-      }
+  const openAddSkillModal = () => setShowAddSkillModal(true);
 
-      if (!response || !Array.isArray(response.content)) {
-        console.error("fetchData - Resposta da API inválida:", response);
-        return;
-      }
+  const closeAddSkillModal = () => setShowAddSkillModal(false);
 
-      const userID = await AsyncStorage.getItem("userId");
-      const userSkillsFiltered = response.content.filter(
-        (skill: Skill) => skill.usuario.id === Number(userID)
-      );
-
-      setUserSkills(userSkillsFiltered);
-    } catch (error) {
-      console.error("Error fetching skills:", error);
-    }
+  const handleSaveNewSkill = () => {
+    fetchUserSkills();
   };
-
+  
   const fetchUserSkills = async (searchTerm?: string) => {
     try {
       let response;
@@ -118,6 +97,36 @@ export default function Home({ route }: any) {
       setUserSkills(userSkillsFiltered);
     } catch (error) {
       console.error("Erro ao buscar habilidades:", error);
+    }
+  };
+
+   const handleLogout = () => {
+     AsyncStorage.removeItem("userId");
+     navigation.navigate("Login");
+   };
+
+  const fetchData = async () => {
+    try {
+      const response = await getUsuarioSkill(
+        page.toString(),
+        pageSize.toString(),
+        sort
+      );
+
+      if (!response || !Array.isArray(response.content)) {
+        console.error("fetchData - Resposta da API inválida:", response);
+        return;
+      }
+
+      const userID = await AsyncStorage.getItem("userId");
+      
+      const userSkillsFiltered = response.content.filter(
+        (skill: Skill) => skill.usuario.id === Number(userID)
+      );
+
+      setUserSkills(userSkillsFiltered);
+    } catch (error) {
+      console.error("Error fetching skills:", error);
     }
   };
 
@@ -203,21 +212,6 @@ export default function Home({ route }: any) {
     } catch (error) {
       console.error("Erro ao alterar ordem:", error);
     }
-  };
-
-  const openAddSkillModal = () => setShowAddSkillModal(true);
-
-  const closeAddSkillModal = () => setShowAddSkillModal(false);
-
-  const handleSaveNewSkill = () => {
-    fetchUserSkills();
-  };
-
-  const handleLogout = () => {
-    AsyncStorage.removeItem("username");
-    AsyncStorage.removeItem("password");
-    AsyncStorage.removeItem("userId");
-    navigation.navigate("Login");
   };
 
   const hasNextPage = userSkills.length === pageSize;
