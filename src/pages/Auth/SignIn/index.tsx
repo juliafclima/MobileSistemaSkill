@@ -11,13 +11,9 @@ import { postLogin } from "../../../server/LoginService";
 import { Container, Content, Title } from "../styles";
 
 const SignIn: React.FC = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-    lembrarUsuario: false,
-  });
-
-  const navigation = useNavigation();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [lembrarUsuario, setLembrarUsuario] = useState(false);
 
   useEffect(() => {
     const retrieveData = async () => {
@@ -26,12 +22,9 @@ const SignIn: React.FC = () => {
         const storedPassword = await AsyncStorage.getItem("password");
 
         if (storedUsername && storedPassword) {
-          setFormData({
-            ...formData,
-            username: storedUsername,
-            password: storedPassword,
-            lembrarUsuario: true,
-          });
+          setUsername(storedUsername);
+          setPassword(storedPassword);
+          setLembrarUsuario(true);
         }
       } catch (error) {
         console.error("Error retrieving data:", error);
@@ -41,15 +34,19 @@ const SignIn: React.FC = () => {
     retrieveData();
   }, []);
 
-  const logar = async () => {
-    const { username, password, lembrarUsuario } = formData;
+  const navigation = useNavigation();
 
+  const logar = async () => {
     if (username && password) {
       try {
         const response = await postLogin(username, password);
+        await AsyncStorage.setItem("username", username.toString());
 
         const userId = response.data.userId;
-        await AsyncStorage.setItem("userId", userId.toString());
+
+        if (userId) {
+          await AsyncStorage.setItem("userId", userId.toString());
+        }
 
         if (lembrarUsuario) {
           await AsyncStorage.setItem("username", username);
@@ -59,18 +56,14 @@ const SignIn: React.FC = () => {
           await AsyncStorage.removeItem("password");
         }
 
-        navigation.navigate("Home", { username, password, novoEstado: true });
+        navigation.navigate("Home");
       } catch (error) {
+        console.error("Erro ao realizar login: ", error);
         Alert.alert("Senha e/ou login incorretos!");
       }
     } else {
       Alert.alert("Preencha todos os campos");
     }
-  };
-
-  const handleCheckboxChange = () => {
-    const novoEstado = !formData.lembrarUsuario;
-    setFormData({ ...formData, lembrarUsuario: novoEstado });
   };
 
   return (
@@ -84,19 +77,14 @@ const SignIn: React.FC = () => {
           <Title>Login</Title>
 
           <Input
-            value={formData.username}
-            onChangeText={(text) =>
-              setFormData({ ...formData, username: text })
-            }
             placeholder="Digite seu login"
+            onChangeText={(text) => setUsername(text)}
           />
 
           <PasswordInput
-            value={formData.password}
-            onChangeText={(text) =>
-              setFormData({ ...formData, password: text })
-            }
             placeholder="Digite sua senha"
+            value={password}
+            onChangeText={(text) => setPassword(text)}
           />
 
           <View
@@ -108,8 +96,8 @@ const SignIn: React.FC = () => {
             }}
           >
             <LembrarCheckbox
-              lembrarUsuario={formData.lembrarUsuario}
-              onChange={handleCheckboxChange}
+              lembrarUsuario={lembrarUsuario}
+              onChange={() => setLembrarUsuario(!lembrarUsuario)}
             />
           </View>
 
