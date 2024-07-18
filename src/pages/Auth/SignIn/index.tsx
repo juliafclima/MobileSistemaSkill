@@ -40,20 +40,30 @@ const SignIn: React.FC = () => {
     if (username && password) {
       try {
         const response = await postLogin(username, password);
+
+        console.log("1 - Login successful:", response);
+
         await AsyncStorage.setItem("username", username.toString());
+        console.log("2 - Username saved in AsyncStorage:", username);
 
         const userId = response.data.userId;
 
         if (userId) {
           await AsyncStorage.setItem("userId", userId.toString());
+          console.log("3 - UserId saved in AsyncStorage:", userId);
         }
 
         if (lembrarUsuario) {
-          await AsyncStorage.setItem("username", username);
-          await AsyncStorage.setItem("password", password);
+          await AsyncStorage.setItem("password", password.toString());
+          console.log("4 - Password saved in AsyncStorage:", password);
         } else {
+          setUsername("");
+          setPassword("");
+
           await AsyncStorage.removeItem("username");
           await AsyncStorage.removeItem("password");
+
+          console.log("5 - Username and password removed from AsyncStorage");
         }
 
         navigation.navigate("Home");
@@ -78,6 +88,7 @@ const SignIn: React.FC = () => {
 
           <Input
             placeholder="Digite seu login"
+            value={username}
             onChangeText={(text) => setUsername(text)}
           />
 
