@@ -95,10 +95,11 @@ export const ContainerFiltros = styled.View`
 `;
 
 export const ContainerPaginacao = styled.View`
-  display: flex;
+  flex-direction: row;
   justify-content: center;
-  gap: 20px;
+  align-items: center;
   margin-top: 20px;
+  gap: 20px;
 `;
 
 export const FooterEspaco = styled.View`
@@ -119,4 +120,5 @@ export const Botao = styled.TouchableOpacity`
   border-radius: 5px;
   width: 80px;
   font-size: 14px;
+  align-items: center;
 `;

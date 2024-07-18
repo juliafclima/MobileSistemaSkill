@@ -217,7 +217,6 @@ export default function Home({ route }: any) {
     AsyncStorage.removeItem("username");
     AsyncStorage.removeItem("password");
     AsyncStorage.removeItem("userId");
-
     navigation.navigate("Login");
   };
 
