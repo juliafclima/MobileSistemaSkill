@@ -42,7 +42,7 @@ npm run dev
 ```
 
 - [Front-End web](https://github.com/juliafclima/WebSistemaSkill/edit/master/README.md)
-- [Back-End](https://github.com/juliafclima/BackSistemaSkilll)
+- [Back-End](https://github.com/juliafclima/BackSistemaSkill)
 
 ## imagens
 
