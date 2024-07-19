@@ -39,9 +39,11 @@ const SignUp: React.FC = () => {
           setLoading(false);
         }, 1500);
       } catch (error) {
-        console.error("Erro ao cadastrar:", error);
         Alert.alert("Usuario já cadastrado!");
       } finally {
+        setLogin("");
+        setSenha("");
+        setConfirmSenha("");
         setLoading(false);
       }
     } else {

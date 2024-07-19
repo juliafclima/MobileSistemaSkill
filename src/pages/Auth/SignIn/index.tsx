@@ -61,7 +61,6 @@ const SignIn: React.FC = () => {
 
         navigation.navigate("Home");
       } catch (error) {
-        console.error("Erro ao realizar login: ", error);
         Alert.alert("Senha e/ou login incorretos!");
       }
     } else {
